@@ -117,7 +117,7 @@ variable "cluster_spot_desired_size" {
   type        = number
 }
 
-variable "create_spots" {
-  description = "Info about create spot instances or not"
-  type        = bool
+variable "capacity_providers" {
+  type    = list(string)
+  default = ["FARGATE", "FARGATE_SPOT"]
 }

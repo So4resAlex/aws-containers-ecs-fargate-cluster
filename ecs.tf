@@ -7,17 +7,14 @@ resource "aws_ecs_cluster" "main" {
   }
 }
 
-# resource "aws_ecs_cluster_capacity_providers" "main" {
-#   cluster_name = aws_ecs_cluster.main.name
-  
-#   capacity_providers = concat(
-#     [aws_ecs_capacity_provider.on_demand.name],
-#     var.create_spots ? [for spot in aws_ecs_capacity_provider.spots : spot.name] : []
-#   )
+resource "aws_ecs_cluster_capacity_providers" "main" {
+  cluster_name = aws_ecs_cluster.main
 
-#   default_capacity_provider_strategy {
-#     capacity_provider = aws_ecs_capacity_provider.on_demand.name
-#     weight            = 100
-#     base              = 0
-#   }
-# }
+  capacity_providers = var.capacity_providers
+
+  default_capacity_provider_strategy {
+    base = 1
+    weight = 100
+    capacity_provider = "FARGATE"
+  }
+}
